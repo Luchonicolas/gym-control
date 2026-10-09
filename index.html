@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101411">
+<meta name="description" content="Gym Control: registra tus entrenamientos y controla tu progreso.">
+<link rel="manifest" href="manifest.json">
+<title>Gym Control</title>
+<style>
+:root{--bg:#0b0e0c;--panel:#151a16;--panel2:#1d241e;--text:#f3f7f1;--muted:#a9b4aa;--accent:#b7f34a;--line:#2b352d;--danger:#ff827e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:22px 18px 16px;background:linear-gradient(135deg,#1a241a,#0b0e0c);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:13px;background:var(--accent);color:#111;font-weight:900;display:grid;place-items:center;font-size:20px}
+h1{font-size:23px;margin:0;letter-spacing:.2px}header p{color:var(--muted);margin:6px 0 0;font-size:13px}
+main{max-width:760px;margin:auto;padding:16px 14px 90px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px}
+.tab{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 6px;color:var(--muted);font-weight:700}
+.tab.active{background:var(--accent);color:#121710;border-color:var(--accent)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:13px}
+h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}
+input,select,textarea{width:100%;background:#0d110e;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:12px;font:inherit;min-width:0}
+input[type=number]{padding:10px}
+button{font:inherit;cursor:pointer}.primary{width:100%;border:0;border-radius:11px;padding:13px;background:var(--accent);color:#11170c;font-weight:800;margin-top:12px}
+.secondary{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:10px 12px;font-weight:650}
+.danger{border:1px solid #63302e;color:var(--danger);background:#241514;border-radius:10px;padding:9px 11px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.stat{background:var(--panel2);border-radius:12px;padding:13px}.stat strong{display:block;font-size:23px;color:var(--accent)}.stat span{font-size:12px;color:var(--muted)}
+.exercise{padding:12px 0;border-top:1px solid var(--line)}.exercise:first-of-type{border-top:0}.setrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:8px}.setrow label{font-size:11px}
+.item{padding:12px 0;border-top:1px solid var(--line)}.item:first-child{border-top:0}
+.pill{font-size:11px;background:#273322;color:var(--accent);padding:4px 8px;border-radius:20px}
+.hidden{display:none!important}.empty{color:var(--muted);text-align:center;padding:22px 8px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+@media(min-width:560px){main{padding:22px 18px 90px}.tabs{max-width:480px}.card{padding:20px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">G</div><div><h1>Gym Control</h1><p>Tu entrenamiento. Tu progreso.</p></div></div></header>
+<main>
+<nav class="tabs">
+<button class="tab active" data-tab="sesion">Entrenar</button>
+<button class="tab" data-tab="historial">Historial</button>
+<button class="tab" data-tab="rutina">Mi rutina</button>
+</nav>
+<section id="sesion">
+<div class="grid2" style="margin-bottom:13px">
+<div class="stat"><strong id="totalSessions">0</strong><span>sesiones guardadas</span></div>
+<div class="stat"><strong id="weekSessions">0</strong><span>esta semana</span></div>
+</div>
+<div class="card">
+<h2>Registrar entrenamiento</h2>
+<div class="grid2">
+<div><label for="workoutDate">Fecha</label><input id="workoutDate" type="date"></div>
+<div><label for="muscle">Grupo muscular</label><select id="muscle"><option>Pecho</option><option>Espalda</option><option>Piernas</option><option>Hombros</option><option>Bíceps</option><option>Tríceps</option><option>Full body</option><option>Cardio</option><option>Otro</option></select></div>
+</div>
+<div style="margin-top:12px"><label for="exerciseName">Ejercicio</label><input id="exerciseName" placeholder="Ej.: Press de banca"></div>
+<div class="grid2" style="margin-top:12px">
+<div><label for="sets">Series</label><input id="sets" type="number" min="1" max="20" value="3"></div>
+<div><label for="reps">Repeticiones por serie</label><input id="reps" type="number" min="1" max="100" value="10"></div>
+</div>
+<div class="grid2" style="margin-top:12px">
+<div><label for="weight">Peso (kg, opcional)</label><input id="weight" type="number" min="0" step="0.5" placeholder="Ej.: 20"></div>
+<div><label for="duration">Duración (min, opcional)</label><input id="duration" type="number" min="0" placeholder="Ej.: 45"></div>
+</div>
+<div style="margin-top:12px"><label for="notes">Notas (opcional)</label><textarea id="notes" rows="2" placeholder="Cómo te sentiste, técnica, etc."></textarea></div>
+<button class="primary" id="saveWorkout">Guardar entrenamiento</button>
+<p class="muted">Los datos se guardan en este dispositivo. No se envían a ningún servidor.</p>
+</div>
+<div class="card"><div class="row"><h2 style="margin:0">Últimos registros</h2><button class="secondary" id="goHistory">Ver todos</button></div><div id="recentList" class="muted" style="margin-top:12px"></div></div>
+</section>
+<section id="historial" class="hidden">
+<div class="card"><div class="row"><h2 style="margin:0">Historial</h2><button class="secondary" id="exportData">Exportar copia</button></div><p class="muted">Guardá una copia de tus registros cuando quieras.</p><div id="historyList"></div></div>
+<div class="card"><h3>Administrar datos</h3><p class="muted">Borrar los registros es permanente en este dispositivo. Exportá una copia antes si querés conservarlos.</p><button class="danger" id="clearData">Borrar todo el historial</button></div>
+</section>
+<section id="rutina" class="hidden">
+<div class="card"><h2>Mi rutina semanal</h2><p class="muted">Anotá tu planificación. Podés modificarla cuando quieras.</p>
+<label for="routineText">Plan de la semana</label><textarea id="routineText" rows="9" placeholder="Lunes: Pecho y tríceps&#10;Martes: Espalda y bíceps&#10;Miércoles: Piernas&#10;Jueves: Hombros y abdomen&#10;Viernes: Rutina general"></textarea>
+<button class="primary" id="saveRoutine">Guardar rutina</button>
+</div>
+<div class="card"><h3>Consejo</h3><p class="muted">Registrá las cargas y las repeticiones con buena técnica. Aumentá la dificultad gradualmente y respetá el descanso.</p></div>
+</section>
+<footer>Gym Control · Versión inicial 1.0</footer>
+</main>
+<script>
+const KEY='gymControlWorkoutsV1', RKEY='gymControlRoutineV1';
+const $=id=>document.getElementById(id);
+let workouts=load(KEY,[]);
+function load(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch(e){return f}}
+function save(){localStorage.setItem(KEY,JSON.stringify(workouts));render()}
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function dateToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+$('workoutDate').value=dateToday();
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+function showTab(tab){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));['sesion','historial','rutina'].forEach(id=>$(id).classList.toggle('hidden',id!==tab));if(tab==='rutina')$('routineText').value=localStorage.getItem(RKEY)||'';render()}
+$('goHistory').onclick=()=>showTab('historial');
+$('saveWorkout').onclick=()=>{
+ const name=$('exerciseName').value.trim();if(!name){alert('Escribí el nombre del ejercicio.');$('exerciseName').focus();return}
+ const sets=Number($('sets').value),reps=Number($('reps').value);
+ if(sets<1||reps<1){alert('Series y repeticiones deben ser mayores que cero.');return}
+ workouts.unshift({id:Date.now(),date:$('workoutDate').value||dateToday(),muscle:$('muscle').value,name,sets,reps,weight:$('weight').value===''?null:Number($('weight').value),duration:$('duration').value===''?null:Number($('duration').value),notes:$('notes').value.trim()});
+ save();$('exerciseName').value='';$('weight').value='';$('duration').value='';$('notes').value='';$('sets').value=3;$('reps').value=10;alert('¡Entrenamiento guardado!');
+};
+function formatDate(s){if(!s)return '';const [y,m,d]=s.split('-');return `${d}/${m}/${y}`}
+function workoutHTML(w,withDelete=false){return `<div class="item"><div class="row"><strong>${safe(w.name)}</strong><span class="pill">${safe(w.muscle)}</span></div><div class="muted" style="margin:5px 0">${formatDate(w.date)} · ${w.sets} series × ${w.reps} rep${w.reps===1?'':'s'}${w.weight!==null?' · '+w.weight+' kg':''}${w.duration!==null?' · '+w.duration+' min':''}</div>${w.notes?`<div class="muted">${safe(w.notes)}</div>`:''}${withDelete?`<div style="margin-top:8px"><button class="danger" onclick="deleteWorkout(${w.id})">Eliminar registro</button></div>`:''}</div>`}
+window.deleteWorkout=id=>{if(confirm('¿Eliminar este registro?')){workouts=workouts.filter(w=>w.id!==id);save()}};
+function render(){
+ $('totalSessions').textContent=workouts.length;
+ const now=new Date();const monday=new Date(now);monday.setHours(0,0,0,0);monday.setDate(now.getDate()-((now.getDay()+6)%7));
+ $('weekSessions').textContent=workouts.filter(w=>{const d=new Date(w.date+'T00:00:00');return d>=monday&&d<=now}).length;
+ $('recentList').innerHTML=workouts.length?workouts.slice(0,3).map(w=>workoutHTML(w)).join(''):'Todavía no hay registros. Guardá tu primer entrenamiento arriba.';
+ $('historyList').innerHTML=workouts.length?workouts.map(w=>workoutHTML(w,true)).join(''):'<div class="empty">Todavía no hay entrenamientos guardados.</div>';
+}
+$('saveRoutine').onclick=()=>{localStorage.setItem(RKEY,$('routineText').value);alert('Rutina guardada en este dispositivo.')};
+$('exportData').onclick=()=>{const data={app:'Gym Control',exportedAt:new Date().toISOString(),workouts,routine:localStorage.getItem(RKEY)||''};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gym-control-copia.json';a.click();URL.revokeObjectURL(a.href)};
+$('clearData').onclick=()=>{if(confirm('¿Seguro que querés borrar todo el historial? Esta acción no se puede deshacer.')){workouts=[];save()}};
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+render();
+</script>
+</body>
+</html>
